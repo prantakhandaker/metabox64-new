@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MetaBox64 - Solar System of Apps | SaaS Solutions</title>
+    <meta name="description" content="MetaBox64 - Explore our solar system of innovative mobile applications. Each planet represents a unique app experience.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"></noscript>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        .starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+        
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            will-change: opacity;
+            animation: twinkle 3s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        .solar-system {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            contain: layout style;
+        }
+        
+        .sun {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ffd700 0%, #ff8c00 50%, #ff4500 100%);
+            box-shadow: 0 0 60px #ffd700, 0 0 100px #ff8c00, 0 0 140px #ff4500;
+            animation: pulse-sun 3s ease-in-out infinite;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            will-change: transform, box-shadow;
+            transition: transform 0.3s;
+        }
+        
+        .sun:hover {
+            transform: scale(1.1);
+        }
+        
+        .sun img {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: contain;
+            padding: 5px;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+        }
+        
+        @keyframes pulse-sun {
+            0%, 100% { 
+                box-shadow: 0 0 60px #ffd700, 0 0 100px #ff8c00, 0 0 140px #ff4500;
+                transform: scale(1) translateZ(0);
+            }
+            50% { 
+                box-shadow: 0 0 80px #ffd700, 0 0 120px #ff8c00, 0 0 160px #ff4500;
+                transform: scale(1.05) translateZ(0);
+            }
+        }
+        
+        .orbit {
+            position: absolute;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .planet {
+            position: absolute;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            will-change: transform;
+            contain: layout style paint;
+        }
+        
+        .planet:hover {
+            transform: scale(1.2);
+            z-index: 20;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.6);
+        }
+        
+        .planet-label {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            opacity: 0;
+            will-change: opacity;
+            transition: opacity 0.3s;
+        }
+        
+        .planet:hover .planet-label {
+            opacity: 1;
+        }
+        
+        .planet-credlyx {
+            width: 60px;
+            height: 60px;
+            background: #ffffff;
+            animation: orbit-credlyx 20s linear infinite;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            will-change: transform;
+        }
+        
+        .planet img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        .planet-placeholder,
+        .planet-3 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @keyframes orbit-credlyx {
+            from {
+                transform: rotate(0deg) translateX(200px) rotate(0deg) translateZ(0);
+            }
+            to {
+                transform: rotate(360deg) translateX(200px) rotate(-360deg) translateZ(0);
+            }
+        }
+        
+        .orbit-1 {
+            width: 400px;
+            height: 400px;
+        }
+        
+        .planet-placeholder {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            animation: orbit-placeholder 25s linear infinite;
+            will-change: transform;
+        }
+        
+        @keyframes orbit-placeholder {
+            from {
+                transform: rotate(45deg) translateX(280px) rotate(-45deg) translateZ(0);
+            }
+            to {
+                transform: rotate(405deg) translateX(280px) rotate(-405deg) translateZ(0);
+            }
+        }
+        
+        .orbit-2 {
+            width: 560px;
+            height: 560px;
+        }
+        
+        .planet-3 {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            animation: orbit-3 30s linear infinite;
+            will-change: transform;
+        }
+        
+        @keyframes orbit-3 {
+            from {
+                transform: rotate(90deg) translateX(350px) rotate(-90deg) translateZ(0);
+            }
+            to {
+                transform: rotate(450deg) translateX(350px) rotate(-450deg) translateZ(0);
+            }
+        }
+        
+        .orbit-3 {
+            width: 700px;
+            height: 700px;
+        }
+        
+        .info-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 350px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            z-index: 100;
+            opacity: 0;
+            transform: translateX(400px);
+            will-change: transform, opacity;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+            contain: layout style paint;
+        }
+        
+        .info-panel.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .info-panel h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .info-panel .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+        
+        .info-panel .close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 50;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .control-btn {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            color: #fff;
+            cursor: pointer;
+            will-change: transform, background;
+            transition: transform 0.3s, background 0.3s;
+            font-size: 14px;
+        }
+        
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .play-store-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 15px;
+            will-change: transform;
+            transition: transform 0.3s;
+        }
+        
+        .play-store-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            .solar-system {
+                transform: scale(0.7);
+            }
+            
+            .info-panel {
+                width: calc(100% - 40px);
+                right: 20px;
+                left: 20px;
+            }
+            
+            .orbit-1 {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .orbit-2 {
+                width: 420px;
+                height: 420px;
+            }
+            
+            .orbit-3 {
+                width: 525px;
+                height: 525px;
+            }
+            
+            @keyframes orbit-credlyx {
+                from {
+                    transform: rotate(0deg) translateX(150px) rotate(0deg) translateZ(0);
+                }
+                to {
+                    transform: rotate(360deg) translateX(150px) rotate(-360deg) translateZ(0);
+                }
+            }
+            
+            @keyframes orbit-placeholder {
+                from {
+                    transform: rotate(45deg) translateX(210px) rotate(-45deg) translateZ(0);
+                }
+                to {
+                    transform: rotate(405deg) translateX(210px) rotate(-405deg) translateZ(0);
+                }
+            }
+            
+            @keyframes orbit-3 {
+                from {
+                    transform: rotate(90deg) translateX(262px) rotate(-90deg) translateZ(0);
+                }
+                to {
+                    transform: rotate(450deg) translateX(262px) rotate(-450deg) translateZ(0);
+                }
+            }
+        }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="starfield" id="starfield"></div>
+    
+    <div class="solar-system">
+        <div class="sun" id="sun">
+            <img src="logo/ChatGPT Image Jan 17, 2026, 12_47_10 AM.png" alt="MetaBox64" width="110" height="110" loading="eager" decoding="async">
+        </div>
+        
+        <div class="orbit orbit-1"></div>
+        <div class="orbit orbit-2"></div>
+        <div class="orbit orbit-3"></div>
+        
+        <div class="planet planet-credlyx" id="planet-credlyx">
+            <img src="logo/credlyx.png" alt="Credlyx" width="60" height="60" loading="lazy" decoding="async">
+            <div class="planet-label">Credlyx</div>
+        </div>
+        
+        <div class="planet planet-placeholder" id="planet-2">
+            <div class="planet-label">Coming Soon</div>
+        </div>
+        
+        <div class="planet planet-3" id="planet-3">
+            <div class="planet-label">Coming Soon</div>
+        </div>
+    </div>
+    
+    <div class="info-panel" id="info-panel">
+        <button class="close-btn" id="close-panel">&times;</button>
+        <div id="panel-content"></div>
+    </div>
+    
+    <div class="controls">
+        <button class="control-btn" id="btn-about">About</button>
+        <button class="control-btn" id="btn-contact">Contact</button>
+    </div>
+    
+    <script defer>
+        (function() {
+            const starfield = document.getElementById('starfield');
+            const fragment = document.createDocumentFragment();
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                const size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                fragment.appendChild(star);
+            }
+            starfield.appendChild(fragment);
+        })();
+        
+        const apps = {
+            'metabox64': {
+                title: 'MetaBox64',
+                subtitle: 'Mobile App Development Company',
+                description: 'MetaBox64 is a cutting-edge SaaS app development company dedicated to creating innovative mobile applications that transform businesses and enhance user experiences.',
+                features: [
+                    'Mobile App Development',
+                    'SaaS Solutions',
+                    'UI/UX Design',
+                    'App Maintenance & Support'
+                ],
+                link: null
+            },
+            'credlyx': {
+                title: 'Credlyx',
+                subtitle: 'Our First App on Play Store',
+                description: 'Credlyx represents our commitment to innovation and excellence. Built with cutting-edge technology and designed with users in mind, Credlyx showcases what MetaBox64 can deliver.',
+                features: [
+                    'Modern & Intuitive Design',
+                    'High Performance',
+                    'Secure & Reliable',
+                    'Available on Google Play Store'
+                ],
+                link: 'https://play.google.com/store/apps/details?id=com.metabox64.credlyx'
+            },
+            'coming-soon': {
+                title: 'Coming Soon',
+                subtitle: 'New App in Development',
+                description: 'We are working on exciting new applications. Stay tuned for updates!',
+                features: [
+                    'Innovative Features',
+                    'Modern Technology',
+                    'User-Centric Design',
+                    'Coming Soon'
+                ],
+                link: null
+            }
+        };
+        
+        function showInfoPanel(appKey) {
+            const panel = document.getElementById('info-panel');
+            const content = document.getElementById('panel-content');
+            const app = apps[appKey];
+            
+            if (!app) return;
+            
+            let html = `
+                <h2>${app.title}</h2>
+                <p style="color: #aaa; margin-bottom: 20px;">${app.subtitle}</p>
+                <p style="margin-bottom: 20px; line-height: 1.6;">${app.description}</p>
+                <div style="margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 10px; font-size: 18px;">Features:</h3>
+                    <ul style="list-style: none; padding: 0;">
+            `;
+            
+            app.features.forEach(feature => {
+                html += `<li style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">✨ ${feature}</li>`;
+            });
+            
+            html += `</ul></div>`;
+            
+            if (app.link) {
+                html += `
+                    <a href="${app.link}" target="_blank" rel="noopener noreferrer" class="play-store-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
+                        </svg>
+                        Get it on Google Play
+                    </a>
+                `;
+            }
+            
+            content.innerHTML = html;
+            panel.classList.add('active');
+        }
+        
+        function hideInfoPanel() {
+            const panel = document.getElementById('info-panel');
+            panel.classList.remove('active');
+        }
+        
+        const sun = document.getElementById('sun');
+        const planetCredlyx = document.getElementById('planet-credlyx');
+        const planet2 = document.getElementById('planet-2');
+        const planet3 = document.getElementById('planet-3');
+        const closePanel = document.getElementById('close-panel');
+        const infoPanel = document.getElementById('info-panel');
+        const btnAbout = document.getElementById('btn-about');
+        const btnContact = document.getElementById('btn-contact');
+        const planets = document.querySelectorAll('.planet');
+        
+        sun.addEventListener('click', () => showInfoPanel('metabox64'));
+        planetCredlyx.addEventListener('click', () => showInfoPanel('credlyx'));
+        planet2.addEventListener('click', () => showInfoPanel('coming-soon'));
+        planet3.addEventListener('click', () => showInfoPanel('coming-soon'));
+        closePanel.addEventListener('click', hideInfoPanel);
+        infoPanel.addEventListener('click', (e) => {
+            if (e.target.id === 'info-panel') hideInfoPanel();
+        });
+        btnAbout.addEventListener('click', () => showInfoPanel('metabox64'));
+        btnContact.addEventListener('click', () => {
+            const content = document.getElementById('panel-content');
+            content.innerHTML = '<h2>Contact Us</h2><p style="color: #aaa; margin-bottom: 20px;">Get in touch with MetaBox64</p><p style="margin-bottom: 20px; line-height: 1.6;">Have a project in mind? Want to learn more about our apps? We\'d love to hear from you!</p><div style="margin-top: 20px;"><p style="margin-bottom: 10px;"><strong>Email:</strong></p><a href="mailto:contact@metabox64.com" style="color: #667eea; text-decoration: none;">contact@metabox64.com</a></div>';
+            infoPanel.classList.add('active');
+        });
+        
+        planets.forEach(planet => {
+            planet.addEventListener('mouseenter', function() {
+                this.style.animationPlayState = 'paused';
+            });
+            planet.addEventListener('mouseleave', function() {
+                this.style.animationPlayState = 'running';
+            });
+        });
+    </script>
+</body>
+</html>
